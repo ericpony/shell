@@ -33,7 +33,7 @@ hi MatchParen ctermbg=blue guibg=lightblue
 " vim:expandtab shiftwidth=2 tabstop=8 textwidth=72
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-03 03:03:05
+" Last Change: 2015-03-03 21:12:22
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -721,3 +721,12 @@ EOF
   " Remove trailing spaces for C/C++ and Vim files
   au BufWritePre *                  call RemoveTrailingSpace()
 endif
+
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd FileType javascript,java,scala,php,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
