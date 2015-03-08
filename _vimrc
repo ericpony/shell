@@ -25,7 +25,10 @@ set gfw=MS_Gothic:h14:b
 
 filetype on
 
-inoremap { {<CR>}<Esc>ko
+inoremap {{ {<CR>}<Esc>ko
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+
 noremap % v%
 
 hi MatchParen ctermbg=blue guibg=lightblue
@@ -33,7 +36,7 @@ hi MatchParen ctermbg=blue guibg=lightblue
 " vim:expandtab shiftwidth=2 tabstop=8 textwidth=72
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-03 21:12:22
+" Last Change: 2015-03-09 01:04:51
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -729,4 +732,4 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType javascript,java,scala,php,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType javascript,java,scala,php,html,python,bash,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
