@@ -1,9 +1,11 @@
-[[ $# -lt 1 ]] && echo "usage: ./$(basename $0) ACTION (ARGS...)
+script_name=./$(basename $0)
+
+[[ $# -lt 1 ]] && echo "usage: $script_name ACTION (ARGS...)
 
  Actions  Arguments
  -------  -----------------------------------------------
   init    (root_git)
-  create  project-name project-dir subtree-git (root-git)
+  create  project-name project-dir subtree-git (project-branch)
   update  project-name
   push    project-name 
 " && exit 1
@@ -24,25 +26,33 @@ function subtree {
       [[ -n $1 ]] && git remote add origin "$1"
       ;;
 
-    create)      
+    create)     
+      if [[ ! -d .git ]]; then 
+        echo "Please create repository first using '$script_name init REMOTE-GIT'" 1>&2
+        exit 1
+      fi
+
       project_name=$1
       project_dir=$2
       project_git=$3
-      root_git=$4
+      project_branch=$4
 
-      subtree init "$root_git"
+      [[ -z $project_branch ]] && project_branch=master
+
+      git checkout master
 
       # add the project as a remote reference in your own project
+      git remote rm "$project_name" 2>$null
       git remote add -f "$project_name" "$project_git"
 
       # check out the project into its own branch
-      git checkout -b "$project_name" "$project_name/master"
+      git checkout -b "$project_name" "$project_name/$project_branch"
 
       # switch back to master
       git checkout master
 
       # read master branch of remote project to project_dir.
-      echo "git read-tree --prefix='$project_dir' -u '$project_name/master'" | bash
+      echo "git read-tree --prefix='$project_dir' -u '$project_name/$project_branch'" | bash
 
       # record the merge result
       git commit -m 'Create sub-repository "'$project_name'"'
@@ -86,4 +96,4 @@ function subtree {
   esac
 }
 
-subtree $1 $2 $3 $4 $5 $6 $7
+subtree "$1" "$2" "$3" "$4" "$5" "$6" "$7"
