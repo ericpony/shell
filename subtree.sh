@@ -45,7 +45,7 @@ function subtree {
       echo "git read-tree --prefix='$project_dir' -u '$project_name/master'" | bash
 
       # record the merge result
-      git commit -m "Create sub-repository '$project_name'"
+      git commit -m 'Create sub-repository "'$project_name'"'
 
       subtree update "$project_name"
 
@@ -57,12 +57,14 @@ function subtree {
 
       git checkout $project_name 2>$null
 
-      git merge --squash -s subtree --no-commit "$project_name/master"
+      git merge --squash -s subtree --no-commit "$project_name"
 
       # or if you want to merge the histories together:
-      # git merge -s ours --no-commit $project_name/master
+      # git merge -s ours --no-commit $project_name
 
       git checkout master 
+
+      git commit -a -m 'Update sub-repository "'$project_name'"'
       ;;
 
     push)
