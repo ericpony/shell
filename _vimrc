@@ -36,7 +36,7 @@ hi MatchParen ctermbg=blue guibg=lightblue
 " vim:expandtab shiftwidth=2 tabstop=8 textwidth=72
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-09 01:04:51
+" Last Change: 2015-03-09 02:36:15 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -733,3 +733,6 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 autocmd FileType javascript,java,scala,php,html,python,bash,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+nmap <F12> :TagbarToggle<CR>
+let $PATH = 'C:\Python279;' . $PATH
