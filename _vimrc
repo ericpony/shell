@@ -1,6 +1,5 @@
 colorscheme peachpuff
 setlocal omnifunc=syntaxcomplete#Complete
-setlocal spell spelllang=en_us
 set wildmenu
 set backupdir=C:/tmp
 set directory=./
@@ -22,21 +21,12 @@ set softtabstop=2
 set expandtab
 set encoding=utf-8
 set gfw=MS_Gothic:h14:b
+set nospell
 
 filetype on
 
-inoremap {{ {<CR>}<Esc>ko
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-
-noremap % v%
-
-hi MatchParen ctermbg=blue guibg=lightblue
-
-" vim:expandtab shiftwidth=2 tabstop=8 textwidth=72
-
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-09 02:36:15 +0800
+" Last Change: 2015-03-09 23:30:39 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -110,7 +100,7 @@ endif
 
 " Set British spelling convention for International English
 if has('syntax')
-  set spelllang=en_gb
+  set spelllang=en_us
 endif
 
 " Use persistent undo
@@ -725,6 +715,28 @@ EOF
   au BufWritePre *                  call RemoveTrailingSpace()
 endif
 
+" folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "do not fold by default
+
+" auto complete matching brackets
+inoremap {{ {<CR>}<Esc>ko
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+
+" select text when user matches braces
+noremap % v%
+
+" highlight matching parentheses
+hi MatchParen ctermbg=blue guibg=lightblue
+
+" highlight the row and column at cursor
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+set cursorline cursorcolumn
+
+" remove tailing white-spaces on save
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
@@ -732,7 +744,11 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
+" add file types manually to avoid accidence
 autocmd FileType javascript,java,scala,php,html,python,bash,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
+" for TagBar plug-in
 nmap <F12> :TagbarToggle<CR>
+
+" for Tern plug-in
 let $PATH = 'C:\Python279;' . $PATH
