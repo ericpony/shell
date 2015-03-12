@@ -26,7 +26,7 @@ set nospell
 filetype on
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-09 23:30:39 +0800
+" Last Change: 2015-03-13 03:32:08
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -752,3 +752,7 @@ nmap <F12> :TagbarToggle<CR>
 
 " for Tern plug-in
 let $PATH = 'C:\Python279;' . $PATH
+
+set nospell
+
+execute pathogen#infect()
