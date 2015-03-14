@@ -75,16 +75,15 @@ function subtree {
 
       #[[ -z $project_branch ]] && project_branch=master
 
-      git checkout $project_name || exit 1
+      git checkout "$project_name" || exit 1
+      git pull || exit 1
 
+      git checkout master || exit 1
       git merge --squash -s subtree --no-commit "$project_name" || exit 1
       # or if you want to merge the histories together:
       # git merge -s ours --no-commit $project_name
 
-      branch_exists "$project_name" && (
-        git checkout master
-        git commit -a -m 'Update sub-repository "'$project_name'"'
-      )
+      git commit -a -m 'Update sub-repository "'$project_name'"'
       ;;
 
     push)
