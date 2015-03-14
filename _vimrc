@@ -30,9 +30,8 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 
 
-
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-14 21:36:33 +0800
+" Last Change: 2015-03-14 23:11:06 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
