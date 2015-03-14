@@ -1,6 +1,7 @@
 colorscheme peachpuff
 setlocal omnifunc=syntaxcomplete#Complete
 set wildmenu
+set wildmode=longest:full,full
 set backupdir=C:/tmp
 set directory=./
 set backup              " keep a backup file
@@ -21,12 +22,17 @@ set softtabstop=2
 set expandtab
 set encoding=utf-8
 set gfw=MS_Gothic:h14:b
-set nospell
-
+set scrolloff=2
 filetype on
 
+" settings for Latex-Suite
+set shellslash
+set grepprg=grep\ -nH\ $*
+
+
+
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-13 03:32:08
+" Last Change: 2015-03-14 21:36:33 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
