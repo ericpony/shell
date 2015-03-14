@@ -4,16 +4,16 @@
 
 script_name=./$(basename $0)
 
-[[ $# -lt 1 ]] && echo "usage: $script_name ACTION (ARGS...)
-
+function show_usage { 
+  echo "usage: $script_name ACTION (ARGS...)
  Actions  Arguments
  -------  -----------------------------------------------
   init    (root_git)
   create  subtree-name subtree-dir subtree-git (subtree-branch)
-  update  subtree-name
-  push    subtree-name 
-" && exit 1
-
+  update  subtree-name subtree-dir 
+  push    subtree-name" 1>&2
+  exit 1
+}
 function branch_exists {  [[ -n $(git branch | grep "\b$1\b") ]]; }
 function remote_exists {  [[ -n $(git remote -v | grep "^$1\b") ]]; }  
 function subtree {
@@ -37,7 +37,7 @@ function subtree {
         echo "[error] Please create repository first using '$script_name init REMOTE-GIT'" 1>&2
         exit 1
       fi
-
+      [[ $# -lt 3 ]] && show_usage 
       project_name=$1
       project_dir=$2
       project_git=$3
@@ -70,7 +70,12 @@ function subtree {
       ;;
 
     update)
+      [[ $# -lt 2 ]] && show_usage 
       project_name=$1
+      project_dir=$2
+      #project_branch=$3
+
+      #[[ -z $project_branch ]] && project_branch=master
 
       git checkout $project_name || exit 1
 
@@ -81,13 +86,18 @@ function subtree {
 
       branch_exists "$project_name" && (
         git checkout master
+
+        # read master branch of remote project to project_dir.
+        echo "git read-tree --prefix='$project_dir' -u '$project_name'" | bash || exit 1
+      
         git commit -a -m 'Update sub-repository "'$project_name'"'
       )
       ;;
 
     push)
+      [[ $# -lt 1 ]] && show_usage 
       project_name=$1
-
+      
       if [[ $project_name = ALL ]]; then
         for project_name in $(git branch | grep -o "\b[^\*][^ ]*\b"); do
           subtree push "$project_name"
@@ -106,8 +116,7 @@ function subtree {
       ;;
 
     *)
-      [[ -n $action ]] && echo "[error] Unknown action: $action" 1>&2
-      exit 1
+      show_usage 
       ;;
   esac
 }
