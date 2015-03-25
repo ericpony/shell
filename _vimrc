@@ -31,7 +31,7 @@ set grepprg=grep\ -nH\ $*
 
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-14 23:11:06 +0800
+" Last Change: 2015-03-24 20:08:03 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -719,6 +719,21 @@ EOF
   " Remove trailing spaces for C/C++ and Vim files
   au BufWritePre *                  call RemoveTrailingSpace()
 endif
+
+"Use TAB to complete when typing words, else inserts TABs as usual.
+"Uses dictionary and source files to find matching words to complete.
+"Note: usual completion is on <C-n> but I prefer to use TAB.
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+
+"Use the Linux dictionary when spelling is in doubt.
+set dictionary=$VIM/american-english-large
 
 " folding settings
 set foldmethod=indent   "fold based on indent
