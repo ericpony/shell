@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 sudo apt-get remove scala-library scala
 VER=2.11.6 # look into http://www.scala-lang.org/files/archive/ for the latest version
 wget http://www.scala-lang.org/files/archive/scala-$VER.deb
