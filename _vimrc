@@ -34,7 +34,7 @@ set grepprg=grep\ -nH\ $*
 
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-29 04:02:54 +0800
+" Last Change: 2015-04-08 07:42:49 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -767,7 +767,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 " add file types manually to avoid accidence
-autocmd FileType javascript,java,scala,php,html,python,bash,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre *.md,*.txt,*.js,*.java,*.scala,*.php,*.html,*.htm,*.py,*.rb,*.sh,*.pl call <SID>StripTrailingWhitespaces()
 
 " for TagBar plug-in
 nmap <F12> :TagbarToggle<CR>
@@ -778,3 +778,5 @@ let $PATH = 'C:\Python279;' . $PATH
 set nospell
 
 execute pathogen#infect()
+
+autocmd BufWritePre *.md,*.txt call PanGuSpacing()
