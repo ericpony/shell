@@ -1,5 +1,6 @@
 colorscheme peachpuff
 setlocal omnifunc=syntaxcomplete#Complete
+set nocompatible
 set wildmenu
 set wildmode=longest:full,full
 set backupdir=C:/tmp
@@ -7,14 +8,16 @@ set directory=./
 set backup              " keep a backup file
 set backupext=.bak
 set patchmode=.ori
-set nu
+set nu                  " show line numbers
 set ruler               " show the cursor position all the time
 set noshowcmd           " display incomplete commands
 set incsearch           " do incremental searching
 set ai
 set smartindent
 set smarttab
-set showmatch
+set showmatch           " show matching brackets
+set novisualbell        " don't blink
+set history=1000
 set matchtime=3
 set tabstop=2
 set shiftwidth=2
@@ -31,7 +34,7 @@ set grepprg=grep\ -nH\ $*
 
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-03-26 03:54:08 +0800
+" Last Change: 2015-03-29 04:02:54 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -64,7 +67,6 @@ if has('gui_running') && has('multi_byte')
   endif
 endif
 
-set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
 if has('xx') && has('gui_running')
   source $VIMRUNTIME/mswin.vim
