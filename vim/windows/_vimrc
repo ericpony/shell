@@ -34,7 +34,7 @@ set grepprg=grep\ -nH\ $*
 
 
 " Wu Yongwei's _vimrc for Vim 7
-" Last Change: 2015-04-08 07:42:49 +0800
+" Last Change: 2015-04-18 22:58:22 +0800
 
 if v:version < 700
   echoerr 'This _vimrc requires Vim 7 or later.'
@@ -722,6 +722,17 @@ EOF
   au BufWritePre *                  call RemoveTrailingSpace()
 endif
 
+" http://usevim.com/2013/01/04/vim101-jumping/
+function! InitJavaScript()
+  setl suffixesadd+=.js
+  "setl path+=node_modules
+  let node_modules='./'
+  let project_root=findfile('package.json', expand('%:p:h') . ';')
+  exec "setl path+=". fnamemodify(project_root, ':p:h') . "/node_modules"
+endfunction
+
+autocmd FileType javascript call InitJavaScript()
+
 "Use TAB to complete when typing words, else inserts TABs as usual.
 "Uses dictionary and source files to find matching words to complete.
 "Note: usual completion is on <C-n> but I prefer to use TAB.
@@ -780,3 +791,12 @@ set nospell
 execute pathogen#infect()
 
 autocmd BufWritePre *.md,*.txt call PanGuSpacing()
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
